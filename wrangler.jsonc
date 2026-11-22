@@ -10,7 +10,10 @@
   "env": {
     "production": {
       "name": "toetscijfers",
-      "routes": [{ "pattern": "toetscijfers.nl", "custom_domain": true }],
+      "routes": [
+        { "pattern": "toetscijfers.nl", "custom_domain": true },
+        { "pattern": "www.toetscijfers.nl", "custom_domain": true },
+      ],
     },
     "test": {
       "name": "toetscijfers-test",
