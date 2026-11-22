@@ -35,3 +35,5 @@ The root Wrangler configuration is for local development. Each deploy command se
 | Production  | `npm run deploy`      | <https://toetscijfers.nl>           |
 
 Each command publishes the files in `public/` from the current checkout to its own Worker. The browser calculates the table locally.
+
+Run `npm run deploy:www` to publish the redirect from `www.toetscijfers.nl` to `https://toetscijfers.nl`. It runs on a separate Worker and preserves the path and query string.

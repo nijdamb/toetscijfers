@@ -15,7 +15,8 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "test:a11y": "playwright test",
-    "deploy:test": "wrangler deploy --env test"
+    "deploy:test": "wrangler deploy --env test",
+    "deploy:www": "wrangler deploy --config www/wrangler.jsonc --env production"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
