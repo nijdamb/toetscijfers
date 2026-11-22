@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy --env=\"\"",
+    "deploy": "wrangler deploy --env production",
     "test": "node --test",
     "knip": "knip",
     "format": "oxfmt",

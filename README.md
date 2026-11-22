@@ -27,7 +27,7 @@ When changing an interaction, also check visible focus and listen to field error
 
 ## Deployment
 
-Authenticate Wrangler to the Cloudflare account, then deploy to the intended environment.
+The root Wrangler configuration is for local development. Each deploy command selects a named environment. Authenticate Wrangler to the Cloudflare account before deploying.
 
 | Environment | Command               | URL                                 |
 | ----------- | --------------------- | ----------------------------------- |
