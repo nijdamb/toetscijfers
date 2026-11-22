@@ -1,0 +1,10 @@
+{
+  "entry": [
+    "public/app.js",
+    "test/**/*.test.js"
+  ],
+  "project": [
+    "public/**/*.js",
+    "test/**/*.js"
+  ]
+}
