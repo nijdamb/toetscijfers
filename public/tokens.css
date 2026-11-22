@@ -18,9 +18,9 @@
   --color-summary-text: #284a37;
   --color-table-heading-background: #e9efea;
   --color-border-panel: #d6dfd7;
-  --color-border-field: #a8b7af;
+  --color-border-field: #718378;
   --color-border-row: #e4e9e4;
-  --color-border-button: #abb8af;
+  --color-border-button: #718378;
   --color-focus: #176554;
 
   --font-body: 'Inter', system-ui, sans-serif;
@@ -31,7 +31,7 @@
   --space-md: 1rem;
   --space-lg: 1.5rem;
 
-  --radius-control: 0.5rem;
-  --radius-mark: 0.55rem;
-  --radius-panel: 1rem;
+  --radius-control: 0%;
+  --radius-mark: 0%;
+  --radius-panel: 0%;
 }

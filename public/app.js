@@ -16,13 +16,25 @@ let page = 0;
 function render() {
   const total = maximum.valueAsNumber;
   const threshold = norm.valueAsNumber;
+  let invalidField;
   let error = '';
   if (!maximum.validity.valid || !Number.isSafeInteger(total * 1000000)) {
+    invalidField = maximum;
     error = 'Vul een geldig aantal punten in, in stappen van 0,5.';
   } else if (!norm.validity.valid) {
+    invalidField = norm;
     error = 'Vul een percentage in van 0,01 tot en met 99,99.';
   }
 
+  for (const field of [maximum, norm]) {
+    if (field === invalidField) {
+      field.setAttribute('aria-invalid', 'true');
+      field.setAttribute('aria-describedby', 'error');
+    } else {
+      field.removeAttribute('aria-invalid');
+      field.removeAttribute('aria-describedby');
+    }
+  }
   document.querySelector('#error').textContent = error;
   const count = error ? 0 : total * 2 + 1;
   document.querySelector('#count').textContent = count ? number.format(count) + ' scores' : '';
@@ -67,7 +79,7 @@ for (const [id, step] of [
   document.getElementById(id).addEventListener('click', () => {
     page += step;
     render();
-    document.querySelector('#result-title').scrollIntoView();
+    document.querySelector('#result-title').focus();
   });
 }
 render();

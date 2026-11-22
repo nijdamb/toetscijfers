@@ -19,6 +19,12 @@ Shared colors, font families, spacing and corner radii live in `public/tokens.cs
 
 Run `npm run format` to format the project or `npm run format:check` to check it without writing changes.
 
+## Accessibility
+
+Install Chromium once with `npx playwright install chromium`, then run `npm run test:a11y`. Playwright starts the local Worker and runs axe checks for WCAG 2.2 A and AA at desktop and narrow widths. The suite also exercises keyboard navigation, error descriptions and table pagination. GitHub Actions runs it on pull requests and pushes to main.
+
+When changing an interaction, also check visible focus and listen to field errors and result updates with a screen reader. These need human evaluation.
+
 ## Deployment
 
 Run `npm run deploy` with Wrangler authenticated to your Cloudflare account. Workers serves the files in `public/` directly. The browser calculates the table locally.
