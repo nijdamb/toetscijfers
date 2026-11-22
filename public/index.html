@@ -1,39 +1,68 @@
 <!doctype html>
 <html lang="nl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#164b41">
-  <title>Toetscijfers · Cijfertabel</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.js"></script>
-</head>
-<body>
-  <header><div class="brand"><span class="mark" aria-hidden="true">✓</span> Toetscijfers</div></header>
-  <main>
-    <h1>Cijfertabel</h1>
-    <p class="intro">Stel je normering in en lees het cijfer af bij de behaalde punten.</p>
-    <div class="layout">
-      <aside>
-        <section class="settings" aria-labelledby="settings-title">
-          <h2 id="settings-title">Normering</h2>
-          <label for="maximum">Maximum aantal punten</label>
-          <div class="field"><input id="maximum" type="number" value="50" min="0.5" step="0.5" required><span>punten</span></div>
-          <label for="norm">Percentage voor een 6,0</label>
-          <div class="field"><input id="norm" type="number" value="70" min="0.01" max="99.99" step="0.01" required><span>%</span></div>
-          <p id="error" role="alert"></p>
-          <div id="summary" role="status"></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#164b41" />
+    <title>Toetscijfers · Cijfertabel</title>
+    <link rel="stylesheet" href="./tokens.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="brand"><span class="mark" aria-hidden="true">✓</span> Toetscijfers</div>
+    </header>
+    <main>
+      <h1>Cijfertabel</h1>
+      <p class="intro">Stel je normering in en lees het cijfer af bij de behaalde punten.</p>
+      <div class="layout">
+        <aside>
+          <section class="settings" aria-labelledby="settings-title">
+            <h2 id="settings-title">Normering</h2>
+            <label for="maximum">Maximum aantal punten</label>
+            <div class="field">
+              <input id="maximum" type="number" value="50" min="0.5" step="0.5" required />
+              <span>punten</span>
+            </div>
+            <label for="norm">Percentage voor een 6,0</label>
+            <div class="field">
+              <input
+                id="norm"
+                type="number"
+                value="70"
+                min="0.01"
+                max="99.99"
+                step="0.01"
+                required
+              />
+              <span>%</span>
+            </div>
+            <p id="error" role="alert"></p>
+            <div id="summary" role="status"></div>
+          </section>
+        </aside>
+        <section class="results" aria-labelledby="result-title">
+          <div class="table-title">
+            <h2 id="result-title">Punten en cijfers</h2>
+            <span id="count"></span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Punten</th>
+                <th scope="col">Percentage</th>
+                <th scope="col">Cijfer</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <nav aria-label="Tabelpagina’s" hidden>
+            <button id="prev">Vorige</button><span id="range"></span
+            ><button id="next">Volgende</button>
+          </nav>
         </section>
-      </aside>
-      <section class="results" aria-labelledby="result-title">
-        <div class="table-title"><h2 id="result-title">Punten en cijfers</h2><span id="count"></span></div>
-        <table>
-          <thead><tr><th scope="col">Punten</th><th scope="col">Percentage</th><th scope="col">Cijfer</th></tr></thead>
-          <tbody></tbody>
-        </table>
-        <nav aria-label="Tabelpagina’s" hidden><button id="prev">Vorige</button><span id="range"></span><button id="next">Volgende</button></nav>
-      </section>
-    </div>
-  </main>
-</body>
+      </div>
+    </main>
+  </body>
 </html>

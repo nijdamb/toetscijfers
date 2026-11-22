@@ -1,10 +1,4 @@
 {
-  "entry": [
-    "public/app.js",
-    "test/**/*.test.js"
-  ],
-  "project": [
-    "public/**/*.js",
-    "test/**/*.js"
-  ]
+  "entry": ["public/app.js", "test/**/*.test.js"],
+  "project": ["public/**/*.js", "test/**/*.js"]
 }

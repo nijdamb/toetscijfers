@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": true,
+  "quoteProps": "preserve",
+  "sortPackageJson": false,
+  "ignorePatterns": [".wrangler/**", "package-lock.json"]
+}

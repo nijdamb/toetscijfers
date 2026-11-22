@@ -5,7 +5,7 @@ import { gradeFor } from '../public/grades.js';
 test('maps zero, the selected threshold and full marks to their grades', () => {
   for (const norm of [60, 65, 70]) {
     assert.equal(gradeFor(0, 50, norm), 1);
-    assert.equal(gradeFor(50 * norm / 100, 50, norm), 6);
+    assert.equal(gradeFor((50 * norm) / 100, 50, norm), 6);
     assert.equal(gradeFor(50, 50, norm), 10);
   }
 });
@@ -14,7 +14,14 @@ test('uses the same slope below and above an 80 percent threshold', () => {
   for (let points = 0; points <= 55; points += 0.5) {
     assert.equal(gradeFor(points, 100, 80), 1);
   }
-  for (const [points, expected] of [[55.5, 1.1], [60, 2], [70, 4], [80, 6], [90, 8], [100, 10]]) {
+  for (const [points, expected] of [
+    [55.5, 1.1],
+    [60, 2],
+    [70, 4],
+    [80, 6],
+    [90, 8],
+    [100, 10],
+  ]) {
     assert.equal(gradeFor(points, 100, 80), expected);
   }
 });

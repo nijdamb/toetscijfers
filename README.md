@@ -15,6 +15,10 @@ npm run dev
 
 Run `npm test` for the grading examples and `npm run knip` to check for unused code and dependencies.
 
+Shared colors, font families, spacing and corner radii live in `public/tokens.css`. Use these CSS custom properties in `public/style.css`.
+
+Run `npm run format` to format the project or `npm run format:check` to check it without writing changes.
+
 ## Deployment
 
 Run `npm run deploy` with Wrangler authenticated to your Cloudflare account. Workers serves the files in `public/` directly. The browser calculates the table locally.

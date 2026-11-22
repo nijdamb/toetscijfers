@@ -1,0 +1,37 @@
+:root {
+  --color-text: #1b2925;
+  --color-text-intro: #53625b;
+  --color-text-field: #182821;
+  --color-text-unit: #586861;
+  --color-text-count: #55635a;
+  --color-text-table: #59665f;
+  --color-text-table-heading: #40524a;
+  --color-grade-pass: #000;
+  --color-grade-fail: #b32235;
+  --color-error: #ac2635;
+  --color-canvas: #f6f8f5;
+  --color-surface: #fff;
+  --color-brand: #164b41;
+  --color-on-brand: #fff;
+  --color-brand-mark: #daf1b5;
+  --color-summary-background: #edf5e4;
+  --color-summary-text: #284a37;
+  --color-table-heading-background: #e9efea;
+  --color-border-panel: #d6dfd7;
+  --color-border-field: #a8b7af;
+  --color-border-row: #e4e9e4;
+  --color-border-button: #abb8af;
+  --color-focus: #176554;
+
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Source Serif 4', Georgia, serif;
+
+  --space-xs: 0.5rem;
+  --space-sm: 0.7rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+
+  --radius-control: 0.5rem;
+  --radius-mark: 0.55rem;
+  --radius-panel: 1rem;
+}

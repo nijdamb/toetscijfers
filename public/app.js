@@ -6,7 +6,10 @@ const rows = document.querySelector('tbody');
 const navigation = document.querySelector('nav');
 const number = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 5 });
 const percent = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 1 });
-const grade = new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const grade = new Intl.NumberFormat('nl-NL', {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
 const pageSize = 200;
 let page = 0;
 
@@ -23,8 +26,9 @@ function render() {
   document.querySelector('#error').textContent = error;
   const count = error ? 0 : total * 2 + 1;
   document.querySelector('#count').textContent = count ? number.format(count) + ' scores' : '';
-  document.querySelector('#summary').textContent = error ? '' :
-    'Een 6,0 bij ' + number.format(total * threshold / 100) + ' punten.';
+  document.querySelector('#summary').textContent = error
+    ? ''
+    : 'Een 6,0 bij ' + number.format((total * threshold) / 100) + ' punten.';
   navigation.hidden = count <= pageSize;
   const first = page * pageSize;
   const end = Math.min(first + pageSize, count);
@@ -37,7 +41,7 @@ function render() {
     score.scope = 'row';
     score.textContent = number.format(points);
     row.append(score);
-    row.insertCell().textContent = percent.format(points / total * 100) + '%';
+    row.insertCell().textContent = percent.format((points / total) * 100) + '%';
     const result = row.insertCell();
     result.textContent = grade.format(value);
     if (value < 5.5) result.className = 'insufficient';
@@ -46,7 +50,8 @@ function render() {
   rows.replaceChildren(fragment);
   document.querySelector('#prev').disabled = page === 0;
   document.querySelector('#next').disabled = end >= count;
-  document.querySelector('#range').textContent = number.format(first + 1) + '–' + number.format(end);
+  document.querySelector('#range').textContent =
+    number.format(first + 1) + '–' + number.format(end);
 }
 
 for (const input of [maximum, norm]) {
@@ -55,7 +60,10 @@ for (const input of [maximum, norm]) {
     render();
   });
 }
-for (const [id, step] of [['prev', -1], ['next', 1]]) {
+for (const [id, step] of [
+  ['prev', -1],
+  ['next', 1],
+]) {
   document.getElementById(id).addEventListener('click', () => {
     page += step;
     render();
