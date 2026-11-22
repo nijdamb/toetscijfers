@@ -27,4 +27,11 @@ When changing an interaction, also check visible focus and listen to field error
 
 ## Deployment
 
-Run `npm run deploy` with Wrangler authenticated to your Cloudflare account. Workers serves the files in `public/` directly. The browser calculates the table locally.
+Authenticate Wrangler to the Cloudflare account, then deploy to the intended environment.
+
+| Environment | Command               | URL                                 |
+| ----------- | --------------------- | ----------------------------------- |
+| Test        | `npm run deploy:test` | Assigned by Wrangler at deploy time |
+| Production  | `npm run deploy`      | <https://toetscijfers.nl>           |
+
+Each command publishes the files in `public/` from the current checkout to its own Worker. The browser calculates the table locally.

@@ -2,10 +2,17 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "toetscijfers",
   "compatibility_date": "2026-11-22",
-  "workers_dev": true,
-  "preview_urls": true,
+  "workers_dev": false,
+  "preview_urls": false,
   "routes": [{ "pattern": "toetscijfers.nl", "custom_domain": true }],
   "assets": {
     "directory": "./public",
+  },
+  "env": {
+    "test": {
+      "name": "toetscijfers-test",
+      "workers_dev": true,
+      "routes": [],
+    },
   },
 }
