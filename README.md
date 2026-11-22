@@ -2,7 +2,7 @@
 
 A Dutch grade calculator for teachers. Set the maximum score and the percentage worth a 6.0 to generate a descending table in half-point steps, including zero.
 
-Grades increase linearly from 1.0 at zero to 6.0 at the selected threshold, then to 10.0 at full marks. The threshold may fall between two attainable scores. Grades are rounded once to the nearest tenth. Rounded grades below 5.5 appear in red.
+One straight line connects 6.0 at the selected threshold to 10.0 at full marks and extends down to zero points. Grades have a minimum of 1.0. With an 80% threshold, a score of 60% earns 2.0 and scores of 55% or less earn 1.0. With a 50% threshold, zero points earns 2.0. The threshold may fall between two attainable scores. Grades are rounded once to the nearest tenth. Rounded grades below 5.5 appear in red.
 
 ## Development
 
