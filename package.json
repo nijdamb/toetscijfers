@@ -13,9 +13,12 @@
     "test": "node --test",
     "knip": "knip",
     "format": "oxfmt",
-    "format:check": "oxfmt --check"
+    "format:check": "oxfmt --check",
+    "test:a11y": "playwright test"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.65.1",
     "knip": "6.48.0",
     "oxfmt": "0.79.0",
     "wrangler": "4.166.0"
