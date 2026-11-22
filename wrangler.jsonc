@@ -3,6 +3,6 @@
   "name": "toetscijfers",
   "compatibility_date": "2026-11-22",
   "assets": {
-    "directory": "./public"
-  }
+    "directory": "./public",
+  },
 }
