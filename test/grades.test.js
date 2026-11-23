@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { gradeFor } from '../public/grades.js';
+import { chartScores, gradeFor } from '../public/grades.js';
 
 test('maps zero, the selected threshold and full marks to their grades', () => {
   for (const norm of [60, 65, 70]) {
@@ -41,4 +41,17 @@ test('rounds an exact half tenth upwards', () => {
 test('extends a low threshold to zero points with the same slope', () => {
   assert.equal(gradeFor(0, 100, 50), 2);
   assert.equal(gradeFor(25, 100, 50), 4);
+});
+
+test('finds the last minimum and first grade of at least six in half-point steps', () => {
+  for (const maximum of [0.5, 25, 31.5, 100, 200]) {
+    const points = Array.from({ length: maximum * 2 + 1 }, (_, index) => index / 2);
+    for (const norm of [0.01, 50, 65, 70, 80, 99.99]) {
+      const minimum = gradeFor(0, maximum, norm);
+      assert.deepEqual(chartScores(maximum, norm), {
+        lastMinimum: points.findLast((score) => gradeFor(score, maximum, norm) === minimum),
+        firstSix: points.find((score) => gradeFor(score, maximum, norm) >= 6),
+      });
+    }
+  }
 });

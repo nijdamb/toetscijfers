@@ -1,4 +1,5 @@
-import { gradeFor } from './grades.js';
+import { renderGradeChart } from './chart.js';
+import { chartScores, formatPoints, gradeFor } from './grades.js';
 
 const maximum = document.querySelector('#maximum');
 const norm = document.querySelector('#norm');
@@ -20,10 +21,10 @@ function render() {
   let error = '';
   if (!maximum.validity.valid || !Number.isSafeInteger(total * 1000000)) {
     invalidField = maximum;
-    error = 'Vul een geldig aantal punten in, in stappen van 0,5.';
+    error = 'Gebruik halve of hele punten vanaf 0,5.';
   } else if (!norm.validity.valid) {
     invalidField = norm;
-    error = 'Vul een percentage in van 0,01 tot en met 99,99.';
+    error = 'Vul 0,01 t/m 99,99% in.';
   }
 
   for (const field of [maximum, norm]) {
@@ -38,9 +39,10 @@ function render() {
   document.querySelector('#error').textContent = error;
   const count = error ? 0 : total * 2 + 1;
   document.querySelector('#count').textContent = count ? number.format(count) + ' scores' : '';
-  document.querySelector('#summary').textContent = error
-    ? ''
-    : 'Een 6,0 bij ' + number.format((total * threshold) / 100) + ' punten.';
+  const scores = error ? null : chartScores(total, threshold);
+  const summary = scores ? 'Vanaf ' + formatPoints(scores.firstSix) + ' een 6,0 of hoger.' : '';
+  document.querySelector('#summary').textContent = summary;
+  renderGradeChart(total, threshold, scores, summary);
   navigation.hidden = count <= pageSize;
   const first = page * pageSize;
   const end = Math.min(first + pageSize, count);

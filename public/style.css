@@ -45,12 +45,13 @@ main {
 }
 
 main {
-  padding-block: clamp(2rem, 5vw, 4.5rem);
+  padding-top: var(--space-lg);
+  padding-bottom: clamp(2rem, 5vw, 4.5rem);
 }
 
 h1 {
   font-family: var(--font-heading);
-  font-size: clamp(3rem, 6vw, 4.6rem);
+  font-size: clamp(2rem, 4vw, 2.75rem);
   letter-spacing: -0.055em;
   font-weight: 500;
   margin: 0;
@@ -60,12 +61,12 @@ h1 {
 .intro {
   color: var(--color-text-intro);
   line-height: 1.55;
-  margin: 0.8rem 0 2.2rem;
+  margin: var(--space-xs) 0 var(--space-lg);
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(15rem, 0.85fr) minmax(0, 1.55fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(min-content, 1fr);
   gap: var(--space-lg);
   align-items: start;
 }
@@ -118,13 +119,20 @@ input {
   color: var(--color-text-field);
 }
 
+#summary,
+#error {
+  display: grid;
+  align-content: center;
+  min-block-size: calc(2.8em + 1.7rem);
+  margin: var(--space-lg) 0 0;
+  padding: 0.85rem;
+  line-height: 1.4;
+}
+
 #summary {
   background: var(--color-summary-background);
   color: var(--color-summary-text);
   border-radius: var(--radius-control);
-  padding: 0.85rem;
-  margin-top: var(--space-lg);
-  line-height: 1.4;
 }
 
 #error {
@@ -209,8 +217,82 @@ button {
 }
 
 @media (min-width: 44.01rem) {
+  th:nth-child(2) {
+    width: 34%;
+  }
+}
+
+@media (min-width: 44.01rem) and (min-height: 61rem) {
   aside {
     position: sticky;
     top: var(--space-md);
+  }
+}
+
+.chart-panel {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+}
+
+#grade-chart {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-md);
+  font-size: calc(0.875rem * var(--chart-text-scale, 1));
+  fill: var(--color-text);
+}
+
+#grade-chart[aria-hidden='true'] {
+  visibility: hidden;
+}
+
+.chart-grid {
+  fill: none;
+  stroke: var(--color-border-row);
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--color-brand);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+
+.chart-marker circle {
+  fill: var(--color-brand);
+  stroke: var(--color-surface);
+  stroke-width: 1.5;
+}
+
+.chart-marker text {
+  transform-box: fill-box;
+  fill: var(--color-brand);
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--color-surface);
+  stroke-width: 3;
+}
+
+.chart-toggle {
+  display: none;
+}
+
+@media (max-width: 44rem) {
+  .chart-panel {
+    padding: var(--space-xs) var(--space-md);
+  }
+
+  .chart-toggle {
+    display: inline-block;
+    border: 0;
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .chart-panel h2,
+  .chart-toggle[aria-expanded='false'] ~ #grade-chart {
+    display: none;
   }
 }
