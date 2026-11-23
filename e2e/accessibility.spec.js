@@ -53,6 +53,11 @@ test('changing the table page moves keyboard focus to the results', async ({ pag
   await page.getByLabel('Maximum aantal punten').fill('100');
   await page.keyboard.press('Tab');
   await page.keyboard.press('Tab');
+  const chartToggle = page.getByRole('button', { name: 'Toon grafiek' });
+  if (await chartToggle.isVisible()) {
+    await expect(chartToggle).toBeFocused();
+    await page.keyboard.press('Tab');
+  }
   const next = page.getByRole('button', { name: 'Volgende' });
   await expect(next).toBeFocused();
   await page.keyboard.press('Enter');

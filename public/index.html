@@ -41,6 +41,47 @@
             <p id="error" role="alert"></p>
             <div id="summary" role="status"></div>
           </section>
+          <section class="chart-panel" aria-labelledby="chart-heading" hidden>
+            <h2 id="chart-heading">Normeringsgrafiek</h2>
+            <button
+              type="button"
+              class="chart-toggle"
+              aria-expanded="false"
+              aria-controls="grade-chart"
+            >
+              Toon grafiek
+            </button>
+            <svg
+              id="grade-chart"
+              viewBox="0 0 300 196"
+              role="img"
+              aria-labelledby="chart-description"
+            >
+              <title id="chart-description"></title>
+              <text x="6" y="15">Cijfer</text>
+              <path
+                class="chart-grid"
+                d="M30 32H280 M30 60H280 M30 88H280 M30 116H280 M30 144H280 M30 158H280"
+              />
+              <g text-anchor="end" dominant-baseline="middle">
+                <text x="24" y="32">10</text>
+                <text x="24" y="60">8</text>
+                <text x="24" y="88">6</text>
+                <text x="24" y="116">4</text>
+                <text x="24" y="144">2</text>
+                <text x="24" y="158">1</text>
+              </g>
+              <g>
+                <text x="30" y="176">0%</text>
+                <text x="155" y="176" text-anchor="middle">50%</text>
+                <text x="280" y="176" text-anchor="end">100%</text>
+                <text x="155" y="194" text-anchor="middle">Percentage</text>
+              </g>
+              <polyline class="chart-line" />
+              <circle class="chart-norm" cy="88" r="4" />
+              <text class="chart-label" y="79"></text>
+            </svg>
+          </section>
         </aside>
         <section class="results" aria-labelledby="result-title">
           <div class="table-title">

@@ -1,3 +1,4 @@
+import { renderGradeChart } from './chart.js';
 import { gradeFor } from './grades.js';
 
 const maximum = document.querySelector('#maximum');
@@ -41,6 +42,8 @@ function render() {
   document.querySelector('#summary').textContent = error
     ? ''
     : 'Een 6,0 bij ' + number.format((total * threshold) / 100) + ' punten.';
+  document.querySelector('.chart-panel').hidden = !count;
+  if (count) renderGradeChart(total, threshold);
   navigation.hidden = count <= pageSize;
   const first = page * pageSize;
   const end = Math.min(first + pageSize, count);

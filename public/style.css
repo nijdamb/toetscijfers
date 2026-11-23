@@ -214,3 +214,65 @@ button {
     top: var(--space-md);
   }
 }
+
+.chart-panel {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+}
+
+#grade-chart {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-md);
+  font-size: 14px;
+  fill: var(--color-text);
+}
+
+.chart-grid {
+  fill: none;
+  stroke: var(--color-border-row);
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--color-brand);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.chart-norm {
+  fill: var(--color-brand);
+  stroke: var(--color-surface);
+  stroke-width: 1.5;
+}
+
+.chart-label {
+  fill: var(--color-brand);
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--color-surface);
+  stroke-width: 3;
+}
+
+.chart-toggle {
+  display: none;
+}
+
+@media (max-width: 44rem) {
+  .chart-panel {
+    padding: var(--space-xs) var(--space-md);
+  }
+
+  .chart-toggle {
+    display: inline-block;
+    border: 0;
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .chart-panel h2,
+  .chart-toggle[aria-expanded='false'] ~ #grade-chart {
+    display: none;
+  }
+}
