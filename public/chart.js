@@ -1,7 +1,7 @@
 import { formatPoints, gradeFor } from './grades.js';
 
 const chart = document.querySelector('#grade-chart');
-const number = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 2 });
+const number = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 1 });
 
 new ResizeObserver(([panel]) => {
   const scale = Math.min(1, chart.viewBox.baseVal.width / panel.contentRect.width);
@@ -33,9 +33,9 @@ function renderMarker(group, percent, grade, text, above) {
   label.textContent = text;
 }
 
-export function renderGradeChart(maximum, norm, targetLabel) {
-  chart.setAttribute('aria-hidden', String(!targetLabel));
-  if (!targetLabel) return;
+export function renderGradeChart(maximum, norm, scores, summary) {
+  chart.setAttribute('aria-hidden', String(!scores));
+  if (!scores) return;
 
   const percentPerGrade = (100 - norm) / 4;
   const floorPercent = Math.max(0, norm - 5 * percentPerGrade);
@@ -47,31 +47,31 @@ export function renderGradeChart(maximum, norm, targetLabel) {
     .querySelector('polyline')
     .setAttribute('points', points.map((point) => point.join(',')).join(' '));
 
-  const floorPoints = (maximum * Math.round(floorPercent * 10000)) / 1000000;
-  const floorLabel = formatPoints(floorPoints);
+  const floorLabel = formatPoints(scores.lastMinimum);
+  const minimum = gradeFor(0, maximum, norm);
   renderMarker(
     chart.querySelector('#chart-minimum'),
-    floorPercent,
-    startGrade,
+    (scores.lastMinimum * 100) / maximum,
+    minimum,
     floorLabel,
     norm <= 50,
   );
+  const normPercent = (scores.firstSix * 100) / maximum;
+  const normGrade = gradeFor(scores.firstSix, maximum, norm);
   renderMarker(
     chart.querySelector('#chart-norm'),
-    norm,
-    6,
-    targetLabel + ' · ' + number.format(norm) + '%',
-    norm > 50,
+    normPercent,
+    normGrade,
+    formatPoints(scores.firstSix) + ' · ' + number.format(normPercent) + '%',
+    norm > 50 && normGrade < 9.5,
   );
   chart.querySelector('title').textContent =
     'Cijfer per behaald percentage bij ' +
-    number.format(maximum) +
-    ' punten. Een 6,0 bij ' +
-    targetLabel +
-    ', oftewel ' +
-    number.format(norm) +
-    '%. Laagste cijfer: ' +
-    gradeFor(0, maximum, norm).toLocaleString('nl-NL', { minimumFractionDigits: 1 }) +
+    formatPoints(maximum) +
+    '. ' +
+    summary +
+    ' Laagste cijfer: ' +
+    minimum.toLocaleString('nl-NL', { minimumFractionDigits: 1 }) +
     ' bij ' +
     floorLabel +
     '. Alle scores staan in de cijfertabel.';

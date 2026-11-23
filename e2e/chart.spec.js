@@ -21,7 +21,7 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   const maximum = page.getByLabel('Maximum aantal punten');
   await maximum.fill('100');
   await page.getByLabel('Percentage voor een 6,0').fill('80');
-  await expect(chart).toHaveAccessibleName(/100 punten.*80%/);
+  await expect(chart).toHaveAccessibleName(/100 punten.*Vanaf 80 punten een 6,0 of hoger/);
   const line = chart.locator('polyline');
   const points = await line.getAttribute('points');
   expect(points).toBe('30,273 167.5,273 280,30');
@@ -54,10 +54,10 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   await norm.fill('50');
   await expect(line).toHaveAttribute('points', '30,246 280,30');
 
-  await expect(floor).toHaveAttribute('cx', '30');
+  await expect(floor).toHaveAttribute('cx', '31.25');
   await expect(floor).toHaveAttribute('cy', '246');
-  await expect(floorLabel).toHaveText('0 punten');
-  await expect(chart).toHaveAccessibleName(/Laagste cijfer: 2,0 bij 0 punten/);
+  await expect(floorLabel).toHaveText('0,5 punten');
+  await expect(chart).toHaveAccessibleName(/Laagste cijfer: 2,0 bij 0,5 punten/);
 
   const panel = page.locator('.chart-panel');
   const panelHeight = await panel.evaluate((el) => el.offsetHeight);
@@ -73,8 +73,18 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   await expect(chart).toBeHidden();
   await maximum.fill('0.5');
   await expect(chart).toHaveAccessibleName(/0,5 punten/);
-  await expect(chart.locator('#chart-norm text')).toHaveText('0,4 punten · 80%');
-  await expect(floorLabel).toHaveText('0,275 punten');
+  await expect(chart.locator('#chart-norm text')).toHaveText('0,5 punten · 100%');
+  await expect(floorLabel).toHaveText('0 punten');
+
+  await maximum.fill('25');
+  await norm.fill('65');
+  await expect(floorLabel).toHaveText('5 punten');
+  await expect(floor).toHaveAttribute('cx', '80');
+  await expect(floor).toHaveAttribute('cy', '273');
+  await expect(chart.locator('#chart-norm text')).toHaveText('16,5 punten · 66%');
+  await expect(chart.locator('#chart-norm circle')).toHaveAttribute('cx', '195');
+  await expect(page.getByRole('status')).toHaveText('Vanaf 16,5 punten een 6,0 of hoger.');
+  await expect(page.getByRole('row', { name: '16,5 66% 6,1', exact: true })).toBeVisible();
   const { violations } = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa'])
     .analyze();

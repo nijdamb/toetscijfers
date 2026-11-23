@@ -1,5 +1,5 @@
 import { renderGradeChart } from './chart.js';
-import { formatPoints, gradeFor } from './grades.js';
+import { chartScores, formatPoints, gradeFor } from './grades.js';
 
 const maximum = document.querySelector('#maximum');
 const norm = document.querySelector('#norm');
@@ -39,12 +39,10 @@ function render() {
   document.querySelector('#error').textContent = error;
   const count = error ? 0 : total * 2 + 1;
   document.querySelector('#count').textContent = count ? number.format(count) + ' scores' : '';
-  const normPoints = (total * Math.round(threshold * 100)) / 10000;
-  const targetLabel = error ? '' : formatPoints(normPoints);
-  document.querySelector('#summary').textContent = targetLabel
-    ? 'Een 6,0 bij ' + targetLabel + '.'
-    : '';
-  renderGradeChart(total, threshold, targetLabel);
+  const scores = error ? null : chartScores(total, threshold);
+  const summary = scores ? 'Vanaf ' + formatPoints(scores.firstSix) + ' een 6,0 of hoger.' : '';
+  document.querySelector('#summary').textContent = summary;
+  renderGradeChart(total, threshold, scores, summary);
   navigation.hidden = count <= pageSize;
   const first = page * pageSize;
   const end = Math.min(first + pageSize, count);
