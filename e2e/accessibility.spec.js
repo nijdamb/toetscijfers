@@ -32,6 +32,10 @@ test('grades are readable and fields are reachable by keyboard', async ({ page }
     .locator('thead th')
     .evaluateAll((cells) => cells.map((cell) => cell.getBoundingClientRect().width));
   expect(Math.max(...widths) - Math.min(...widths)).toBeLessThan(2);
+  const aligns = await page
+    .locator('thead th')
+    .evaluateAll((cells) => cells.map((cell) => getComputedStyle(cell).textAlign));
+  expect(aligns).toEqual(['center', 'center', 'center']);
   await expect(page.locator('tbody td').first()).toHaveCSS('font-weight', '700');
   await checkAccessibility(page);
 });

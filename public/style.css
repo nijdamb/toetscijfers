@@ -168,11 +168,7 @@ table {
 th,
 td {
   padding: var(--space-sm) clamp(0.65rem, 2vw, 1.4rem);
-  text-align: right;
-}
-
-th:first-child {
-  text-align: left;
+  text-align: center;
 }
 
 thead {
