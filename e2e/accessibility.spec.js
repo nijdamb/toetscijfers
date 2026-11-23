@@ -78,3 +78,29 @@ test('changing the table page moves keyboard focus to the results', async ({ pag
   await page.keyboard.press('Enter');
   await expect(page.getByRole('rowheader', { name: '100', exact: true })).toBeVisible();
 });
+
+test('mistakes count up in half points and long scores fit their cells', async ({ page }) => {
+  await page.goto('/');
+  const maximum = page.getByLabel('Maximum aantal punten');
+  await maximum.fill('25.5');
+  const rows = page.locator('tbody tr');
+  await expect(page.getByRole('columnheader')).toHaveText(['Punten', 'Fouten', 'Cijfer']);
+  await expect(rows.first().getByRole('cell').first()).toHaveText('0');
+  await expect(rows.nth(1).getByRole('cell').first()).toHaveText('0,5');
+  await expect(rows.last().getByRole('cell').first()).toHaveText('25,5');
+
+  const table = page.getByRole('table');
+  const width = (await table.boundingBox()).width;
+  await maximum.fill('9007199254.5');
+  const points = rows.first().getByRole('rowheader');
+  await expect(points).toHaveText('9.007.199.254,5');
+  expect((await table.boundingBox()).width).toBeCloseTo(width, 0);
+  const fits = await points.evaluate((cell) => {
+    const range = document.createRange();
+    range.selectNodeContents(cell);
+    const text = range.getBoundingClientRect();
+    const bounds = cell.getBoundingClientRect();
+    return text.left >= bounds.left && text.right <= bounds.right;
+  });
+  expect(fits).toBe(true);
+});
