@@ -3,6 +3,11 @@ import { formatPoints, gradeFor } from './grades.js';
 const chart = document.querySelector('#grade-chart');
 const number = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 2 });
 
+new ResizeObserver(([panel]) => {
+  const scale = Math.min(1, chart.viewBox.baseVal.width / panel.contentRect.width);
+  chart.style.setProperty('--chart-text-scale', scale);
+}).observe(chart.parentElement);
+
 const toggle = document.querySelector('.chart-toggle');
 toggle.addEventListener('click', () => {
   const open = toggle.getAttribute('aria-expanded') === 'false';

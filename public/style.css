@@ -237,7 +237,7 @@ button {
   display: block;
   width: 100%;
   margin-top: var(--space-md);
-  font-size: 14px;
+  font-size: calc(0.875rem * var(--chart-text-scale, 1));
   fill: var(--color-text);
 }
 

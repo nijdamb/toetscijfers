@@ -35,6 +35,13 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   await expect(chart).toHaveAccessibleName(/Laagste cijfer: 1,0 bij 55 punten/);
   const ticks = chart.locator('.chart-ticks text');
   await expect(ticks).toHaveText('10 9 8 7 6 5 4 3 2 1 0'.split(' '));
+  const chartWidth = (await chart.boundingBox()).width;
+  const expectedFontSize = 14 * Math.min(1, chartWidth / 300);
+  const renderedFontSize = () =>
+    ticks
+      .first()
+      .evaluate((tick) => parseFloat(getComputedStyle(tick).fontSize) * tick.getScreenCTM().a);
+  await expect.poll(renderedFontSize).toBeCloseTo(expectedFontSize, 1);
   const boxes = await ticks.evaluateAll((labels) =>
     labels.map((label) => label.getBoundingClientRect().toJSON()),
   );
