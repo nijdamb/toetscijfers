@@ -28,6 +28,11 @@ test('grades are readable and fields are reachable by keyboard', async ({ page }
     .getByRole('row', { name: '77 23 5,4', exact: true })
     .getByRole('cell', { name: '5,4', exact: true });
   await expect(failing).toHaveCSS('color', 'rgb(179, 34, 53)');
+  const widths = await page
+    .locator('thead th')
+    .evaluateAll((cells) => cells.map((cell) => cell.getBoundingClientRect().width));
+  expect(Math.max(...widths) - Math.min(...widths)).toBeLessThan(2);
+  await expect(page.locator('tbody td').first()).toHaveCSS('font-weight', '700');
   await checkAccessibility(page);
 });
 

@@ -161,6 +161,7 @@ nav {
 
 table {
   border-collapse: collapse;
+  table-layout: fixed;
   width: 100%;
 }
 
@@ -190,11 +191,11 @@ tbody th {
 
 td {
   color: var(--color-text-table);
+  font-weight: 700;
 }
 
 td:last-child {
   color: var(--color-grade-pass);
-  font-weight: 700;
 }
 
 td.insufficient {
@@ -213,12 +214,6 @@ button {
 @media (max-width: 44rem) {
   .layout {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (min-width: 44.01rem) {
-  th:nth-child(2) {
-    width: 34%;
   }
 }
 
