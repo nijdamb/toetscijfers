@@ -58,7 +58,8 @@ function render() {
     row.insertCell().textContent = percent.format((points / total) * 100) + '%';
     const result = row.insertCell();
     result.textContent = grade.format(value);
-    if (value < 5.5) result.className = 'insufficient';
+    result.className = value < 5.5 ? 'grade insufficient' : 'grade';
+    row.insertCell().textContent = number.format(total - points);
     fragment.append(row);
   }
   rows.replaceChildren(fragment);

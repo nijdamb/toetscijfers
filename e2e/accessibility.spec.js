@@ -20,14 +20,14 @@ test('grades are readable and fields are reachable by keyboard', async ({ page }
   await page.keyboard.press('Tab');
   await expect(page.getByLabel('Percentage voor een 6,0')).toBeFocused();
   await page.getByLabel('Percentage voor een 6,0').fill('80');
-  await expect(page.getByRole('cell', { name: '5,5', exact: true })).toHaveCSS(
-    'color',
-    'rgb(0, 0, 0)',
-  );
-  await expect(page.getByRole('cell', { name: '5,4', exact: true })).toHaveCSS(
-    'color',
-    'rgb(179, 34, 53)',
-  );
+  const passing = page
+    .getByRole('row', { name: '77,5 77,5% 5,5 22,5', exact: true })
+    .getByRole('cell', { name: '5,5', exact: true });
+  await expect(passing).toHaveCSS('color', 'rgb(0, 0, 0)');
+  const failing = page
+    .getByRole('row', { name: '77 77% 5,4 23', exact: true })
+    .getByRole('cell', { name: '5,4', exact: true });
+  await expect(failing).toHaveCSS('color', 'rgb(179, 34, 53)');
   await checkAccessibility(page);
 });
 

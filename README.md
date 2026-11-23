@@ -1,6 +1,6 @@
 # Toetscijfers
 
-A Dutch grade calculator for teachers. Set the maximum score and the percentage worth a 6.0 to generate a descending table in half-point steps, including zero.
+A Dutch grade calculator for teachers. Set the maximum score and the percentage worth a 6.0 to generate a descending table in half-point steps, including zero. Each row also lists the number of mistakes, which is the maximum score minus the points earned.
 
 One straight line connects 6.0 at the selected threshold to 10.0 at full marks and extends down to zero points. Grades have a minimum of 1.0. With an 80% threshold, a score of 60% earns 2.0 and scores of 55% or less earn 1.0. With a 50% threshold, zero points earns 2.0. The threshold may fall between two attainable scores. Grades are rounded once to the nearest tenth. Rounded grades below 5.5 appear in red.
 
