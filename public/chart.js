@@ -13,7 +13,7 @@ export function renderGradeChart(maximum, norm, targetLabel) {
   if (!targetLabel) return;
 
   const x = (percent) => 30 + 2.5 * percent;
-  const y = (grade) => 200 - 17 * grade;
+  const y = (grade) => 300 - 27 * grade;
   const percentPerGrade = (100 - norm) / 4;
   const floorPercent = norm - 5 * percentPerGrade;
   const startGrade = Math.max(1, 6 - norm / percentPerGrade);
@@ -25,10 +25,12 @@ export function renderGradeChart(maximum, norm, targetLabel) {
     .setAttribute('points', points.map((point) => point.join(',')).join(' '));
 
   const normX = x(norm);
-  chart.querySelector('circle').setAttribute('cx', normX);
+  const marker = chart.querySelector('circle');
+  marker.setAttribute('cx', normX);
+  marker.setAttribute('cy', y(6));
   const label = chart.querySelector('.chart-label');
   label.setAttribute('x', normX);
-  label.setAttribute('y', norm > 50 ? 89 : 116);
+  label.setAttribute('y', y(6) + (norm > 50 ? -9 : 18));
   label.style.transform =
     norm > 50
       ? `translateX(max(-100%, ${x(0) - normX}px))`

@@ -24,15 +24,22 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   await expect(chart).toHaveAccessibleName(/100 punten.*80%/);
   const line = chart.locator('polyline');
   const points = await line.getAttribute('points');
-  expect(points).toBe('30,183 167.5,183 280,30');
+  expect(points).toBe('30,273 167.5,273 280,30');
   await expect(chart.locator('.chart-label')).toHaveText('80 punten · 80%');
   await expect(chart.locator('circle')).toHaveAttribute('cx', '230');
-  await expect(chart.locator('.chart-ticks')).toContainText('0,5');
+  const ticks = chart.locator('.chart-ticks text');
+  await expect(ticks).toHaveText('10 9 8 7 6 5 4 3 2 1 0'.split(' '));
+  const boxes = await ticks.evaluateAll((labels) =>
+    labels.map((label) => label.getBoundingClientRect().toJSON()),
+  );
+  for (let i = 1; i < boxes.length; i++) {
+    expect(boxes[i].top - boxes[i - 1].bottom).toBeGreaterThan(4);
+  }
   await page.getByRole('button', { name: 'Volgende' }).click();
   await expect(line).toHaveAttribute('points', points);
   const norm = page.getByLabel('Percentage voor een 6,0');
   await norm.fill('50');
-  await expect(line).toHaveAttribute('points', '30,166 280,30');
+  await expect(line).toHaveAttribute('points', '30,246 280,30');
 
   const panel = page.locator('.chart-panel');
   const panelHeight = await panel.evaluate((el) => el.offsetHeight);

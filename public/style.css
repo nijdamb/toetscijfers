@@ -215,7 +215,7 @@ button {
   }
 }
 
-@media (min-width: 44.01rem) {
+@media (min-width: 44.01rem) and (min-height: 54rem) {
   aside {
     position: sticky;
     top: var(--space-md);
@@ -237,10 +237,6 @@ button {
 
 #grade-chart[aria-hidden='true'] {
   visibility: hidden;
-}
-
-.chart-ticks {
-  font-size: 12px;
 }
 
 .chart-grid {
