@@ -25,8 +25,14 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   const line = chart.locator('polyline');
   const points = await line.getAttribute('points');
   expect(points).toBe('30,273 167.5,273 280,30');
-  await expect(chart.locator('.chart-label')).toHaveText('80 punten · 80%');
-  await expect(chart.locator('circle')).toHaveAttribute('cx', '230');
+  await expect(chart.locator('#chart-norm text')).toHaveText('80 punten · 80%');
+  await expect(chart.locator('#chart-norm circle')).toHaveAttribute('cx', '230');
+  const floor = chart.locator('#chart-minimum circle');
+  const floorLabel = chart.locator('#chart-minimum text');
+  await expect(floor).toHaveAttribute('cx', '167.5');
+  await expect(floor).toHaveAttribute('cy', '273');
+  await expect(floorLabel).toHaveText('55 punten');
+  await expect(chart).toHaveAccessibleName(/Laagste cijfer: 1,0 bij 55 punten/);
   const ticks = chart.locator('.chart-ticks text');
   await expect(ticks).toHaveText('10 9 8 7 6 5 4 3 2 1 0'.split(' '));
   const boxes = await ticks.evaluateAll((labels) =>
@@ -40,6 +46,11 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   const norm = page.getByLabel('Percentage voor een 6,0');
   await norm.fill('50');
   await expect(line).toHaveAttribute('points', '30,246 280,30');
+
+  await expect(floor).toHaveAttribute('cx', '30');
+  await expect(floor).toHaveAttribute('cy', '246');
+  await expect(floorLabel).toHaveText('0 punten');
+  await expect(chart).toHaveAccessibleName(/Laagste cijfer: 2,0 bij 0 punten/);
 
   const panel = page.locator('.chart-panel');
   const panelHeight = await panel.evaluate((el) => el.offsetHeight);
@@ -55,7 +66,8 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   await expect(chart).toBeHidden();
   await maximum.fill('0.5');
   await expect(chart).toHaveAccessibleName(/0,5 punten/);
-  await expect(chart.locator('.chart-label')).toHaveText('0,4 punten · 80%');
+  await expect(chart.locator('#chart-norm text')).toHaveText('0,4 punten · 80%');
+  await expect(floorLabel).toHaveText('0,275 punten');
   const { violations } = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa'])
     .analyze();

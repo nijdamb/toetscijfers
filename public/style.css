@@ -65,7 +65,7 @@ h1 {
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(15rem, 0.85fr) minmax(0, 1.55fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(min-content, 1fr);
   gap: var(--space-lg);
   align-items: start;
 }
@@ -215,7 +215,13 @@ button {
   }
 }
 
-@media (min-width: 44.01rem) and (min-height: 54rem) {
+@media (min-width: 44.01rem) {
+  th:nth-child(2) {
+    width: 34%;
+  }
+}
+
+@media (min-width: 44.01rem) and (min-height: 61rem) {
   aside {
     position: sticky;
     top: var(--space-md);
@@ -252,13 +258,13 @@ button {
   stroke-linejoin: round;
 }
 
-.chart-norm {
+.chart-marker circle {
   fill: var(--color-brand);
   stroke: var(--color-surface);
   stroke-width: 1.5;
 }
 
-.chart-label {
+.chart-marker text {
   transform-box: fill-box;
   fill: var(--color-brand);
   font-weight: 700;
