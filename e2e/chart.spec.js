@@ -84,7 +84,7 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   await expect(chart.locator('#chart-norm text')).toHaveText('16,5 punten · 66%');
   await expect(chart.locator('#chart-norm circle')).toHaveAttribute('cx', '195');
   await expect(page.getByRole('status')).toHaveText('Vanaf 16,5 punten een 6,0 of hoger.');
-  await expect(page.getByRole('row', { name: '16,5 66% 6,1', exact: true })).toBeVisible();
+  await expect(page.getByRole('row', { name: '16,5 8,5 6,1', exact: true })).toBeVisible();
   const { violations } = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa'])
     .analyze();

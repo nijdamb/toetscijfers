@@ -6,7 +6,6 @@ const norm = document.querySelector('#norm');
 const rows = document.querySelector('tbody');
 const navigation = document.querySelector('nav');
 const number = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 5 });
-const percent = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 1 });
 const grade = new Intl.NumberFormat('nl-NL', {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1,
@@ -55,7 +54,7 @@ function render() {
     score.scope = 'row';
     score.textContent = number.format(points);
     row.append(score);
-    row.insertCell().textContent = percent.format((points / total) * 100) + '%';
+    row.insertCell().textContent = number.format(total - points);
     const result = row.insertCell();
     result.textContent = grade.format(value);
     if (value < 5.5) result.className = 'insufficient';

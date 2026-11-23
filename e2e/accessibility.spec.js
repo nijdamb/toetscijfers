@@ -20,14 +20,23 @@ test('grades are readable and fields are reachable by keyboard', async ({ page }
   await page.keyboard.press('Tab');
   await expect(page.getByLabel('Percentage voor een 6,0')).toBeFocused();
   await page.getByLabel('Percentage voor een 6,0').fill('80');
-  await expect(page.getByRole('cell', { name: '5,5', exact: true })).toHaveCSS(
-    'color',
-    'rgb(0, 0, 0)',
-  );
-  await expect(page.getByRole('cell', { name: '5,4', exact: true })).toHaveCSS(
-    'color',
-    'rgb(179, 34, 53)',
-  );
+  const passing = page
+    .getByRole('row', { name: '77,5 22,5 5,5', exact: true })
+    .getByRole('cell', { name: '5,5', exact: true });
+  await expect(passing).toHaveCSS('color', 'rgb(0, 0, 0)');
+  const failing = page
+    .getByRole('row', { name: '77 23 5,4', exact: true })
+    .getByRole('cell', { name: '5,4', exact: true });
+  await expect(failing).toHaveCSS('color', 'rgb(179, 34, 53)');
+  const widths = await page
+    .locator('thead th')
+    .evaluateAll((cells) => cells.map((cell) => cell.getBoundingClientRect().width));
+  expect(Math.max(...widths) - Math.min(...widths)).toBeLessThan(2);
+  const aligns = await page
+    .locator('thead th')
+    .evaluateAll((cells) => cells.map((cell) => getComputedStyle(cell).textAlign));
+  expect(aligns).toEqual(['center', 'center', 'center']);
+  await expect(page.locator('tbody td').first()).toHaveCSS('font-weight', '700');
   await checkAccessibility(page);
 });
 
@@ -68,4 +77,30 @@ test('changing the table page moves keyboard focus to the results', async ({ pag
   await expect(page.getByRole('button', { name: 'Vorige' })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('rowheader', { name: '100', exact: true })).toBeVisible();
+});
+
+test('mistakes count up in half points and long scores fit their cells', async ({ page }) => {
+  await page.goto('/');
+  const maximum = page.getByLabel('Maximum aantal punten');
+  await maximum.fill('25.5');
+  const rows = page.locator('tbody tr');
+  await expect(page.getByRole('columnheader')).toHaveText(['Punten', 'Fouten', 'Cijfer']);
+  await expect(rows.first().getByRole('cell').first()).toHaveText('0');
+  await expect(rows.nth(1).getByRole('cell').first()).toHaveText('0,5');
+  await expect(rows.last().getByRole('cell').first()).toHaveText('25,5');
+
+  const table = page.getByRole('table');
+  const width = (await table.boundingBox()).width;
+  await maximum.fill('9007199254.5');
+  const points = rows.first().getByRole('rowheader');
+  await expect(points).toHaveText('9.007.199.254,5');
+  expect((await table.boundingBox()).width).toBeCloseTo(width, 0);
+  const fits = await points.evaluate((cell) => {
+    const range = document.createRange();
+    range.selectNodeContents(cell);
+    const text = range.getBoundingClientRect();
+    const bounds = cell.getBoundingClientRect();
+    return text.left >= bounds.left && text.right <= bounds.right;
+  });
+  expect(fits).toBe(true);
 });
