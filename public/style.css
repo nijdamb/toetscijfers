@@ -192,12 +192,12 @@ td {
   color: var(--color-text-table);
 }
 
-td.grade {
+td:last-child {
   color: var(--color-grade-pass);
   font-weight: 700;
 }
 
-td.grade.insufficient {
+td.insufficient {
   color: var(--color-grade-fail);
 }
 
@@ -219,13 +219,6 @@ button {
 @media (min-width: 44.01rem) {
   th:nth-child(2) {
     width: 34%;
-  }
-}
-
-@media (max-width: 44rem) {
-  th,
-  td {
-    padding-inline: var(--space-xs);
   }
 }
 
