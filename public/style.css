@@ -118,13 +118,20 @@ input {
   color: var(--color-text-field);
 }
 
+#summary,
+#error {
+  display: grid;
+  align-content: center;
+  min-block-size: calc(2.8em + 1.7rem);
+  margin: var(--space-lg) 0 0;
+  padding: 0.85rem;
+  line-height: 1.4;
+}
+
 #summary {
   background: var(--color-summary-background);
   color: var(--color-summary-text);
   border-radius: var(--radius-control);
-  padding: 0.85rem;
-  margin-top: var(--space-lg);
-  line-height: 1.4;
 }
 
 #error {
@@ -228,6 +235,14 @@ button {
   fill: var(--color-text);
 }
 
+#grade-chart[aria-hidden='true'] {
+  visibility: hidden;
+}
+
+.chart-ticks {
+  font-size: 12px;
+}
+
 .chart-grid {
   fill: none;
   stroke: var(--color-border-row);
@@ -236,7 +251,8 @@ button {
 .chart-line {
   fill: none;
   stroke: var(--color-brand);
-  stroke-width: 2.5;
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
   stroke-linejoin: round;
 }
 
@@ -247,6 +263,7 @@ button {
 }
 
 .chart-label {
+  transform-box: fill-box;
   fill: var(--color-brand);
   font-weight: 700;
   paint-order: stroke;

@@ -41,7 +41,7 @@
             <p id="error" role="alert"></p>
             <div id="summary" role="status"></div>
           </section>
-          <section class="chart-panel" aria-labelledby="chart-heading" hidden>
+          <section class="chart-panel" aria-labelledby="chart-heading">
             <h2 id="chart-heading">Normeringsgrafiek</h2>
             <button
               type="button"
@@ -53,7 +53,8 @@
             </button>
             <svg
               id="grade-chart"
-              viewBox="0 0 300 196"
+              viewBox="0 0 300 242"
+              aria-hidden="true"
               role="img"
               aria-labelledby="chart-description"
             >
@@ -61,25 +62,27 @@
               <text x="6" y="15">Cijfer</text>
               <path
                 class="chart-grid"
-                d="M30 32H280 M30 60H280 M30 88H280 M30 116H280 M30 144H280 M30 158H280"
+                d="M30 30H280 M30 64H280 M30 98H280 M30 132H280 M30 166H280 M30 183H280 M30 191.5H280 M30 200H280"
               />
-              <g text-anchor="end" dominant-baseline="middle">
-                <text x="24" y="32">10</text>
-                <text x="24" y="60">8</text>
-                <text x="24" y="88">6</text>
-                <text x="24" y="116">4</text>
-                <text x="24" y="144">2</text>
-                <text x="24" y="158">1</text>
+              <g class="chart-ticks" text-anchor="end" dominant-baseline="middle">
+                <text x="24" y="30">10</text>
+                <text x="24" y="64">8</text>
+                <text x="24" y="98">6</text>
+                <text x="24" y="132">4</text>
+                <text x="24" y="166">2</text>
+                <text x="24" y="180">1</text>
+                <text x="24" y="191.5">0,5</text>
+                <text x="24" y="204">0</text>
               </g>
               <g>
-                <text x="30" y="176">0%</text>
-                <text x="155" y="176" text-anchor="middle">50%</text>
-                <text x="280" y="176" text-anchor="end">100%</text>
-                <text x="155" y="194" text-anchor="middle">Percentage</text>
+                <text x="30" y="222">0%</text>
+                <text x="155" y="222" text-anchor="middle">50%</text>
+                <text x="280" y="222" text-anchor="end">100%</text>
+                <text x="155" y="240" text-anchor="middle">Percentage</text>
               </g>
               <polyline class="chart-line" />
-              <circle class="chart-norm" cy="88" r="4" />
-              <text class="chart-label" y="79"></text>
+              <circle class="chart-norm" cy="98" r="3" />
+              <text class="chart-label"></text>
             </svg>
           </section>
         </aside>

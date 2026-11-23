@@ -1,5 +1,3 @@
-import { gradeFor } from './grades.js';
-
 const chart = document.querySelector('#grade-chart');
 const number = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 2 });
 
@@ -10,45 +8,38 @@ toggle.addEventListener('click', () => {
   toggle.textContent = open ? 'Verberg grafiek' : 'Toon grafiek';
 });
 
-export function renderGradeChart(maximum, norm) {
-  const last = maximum * 2;
-  const points = [];
-  for (let start = 0; start <= last;) {
-    const grade = gradeFor(start / 2, maximum, norm);
-    // Equal consecutive grades form a horizontal segment, even across table pages.
-    let end = start;
-    let high = last;
-    while (end < high) {
-      const middle = Math.ceil((end + high) / 2);
-      if (gradeFor(middle / 2, maximum, norm) === grade) end = middle;
-      else high = middle - 1;
-    }
-    points.push([start / last, grade]);
-    if (end > start) points.push([end / last, grade]);
-    start = end + 1;
-  }
-  // The exact 6.0 threshold can fall between attainable half-point scores.
-  points.push([norm / 100, 6]);
-  points.sort(([a], [b]) => a - b);
-  const x = (fraction) => 30 + 250 * fraction;
-  const y = (grade) => 158 - 14 * (grade - 1);
+export function renderGradeChart(maximum, norm, targetLabel) {
+  chart.setAttribute('aria-hidden', String(!targetLabel));
+  if (!targetLabel) return;
+
+  const x = (percent) => 30 + 2.5 * percent;
+  const y = (grade) => 200 - 17 * grade;
+  const percentPerGrade = (100 - norm) / 4;
+  const floorPercent = norm - 5 * percentPerGrade;
+  const startGrade = Math.max(1, 6 - norm / percentPerGrade);
+  const points = [[x(0), y(startGrade)]];
+  if (floorPercent > 0) points.push([x(floorPercent), y(1)]);
+  points.push([x(100), y(10)]);
   chart
     .querySelector('polyline')
-    .setAttribute(
-      'points',
-      points.map(([fraction, grade]) => x(fraction) + ',' + y(grade)).join(' '),
-    );
+    .setAttribute('points', points.map((point) => point.join(',')).join(' '));
 
-  const normX = x(norm / 100);
+  const normX = x(norm);
   chart.querySelector('circle').setAttribute('cx', normX);
   const label = chart.querySelector('.chart-label');
-  label.setAttribute('x', normX + (norm > 50 ? -6 : 6));
-  label.setAttribute('text-anchor', norm > 50 ? 'end' : 'start');
-  label.textContent = number.format(norm) + '%';
+  label.setAttribute('x', normX);
+  label.setAttribute('y', norm > 50 ? 89 : 116);
+  label.style.transform =
+    norm > 50
+      ? `translateX(max(-100%, ${x(0) - normX}px))`
+      : `translateX(min(0px, calc(${x(100) - normX}px - 100%)))`;
+  label.textContent = targetLabel + ' · ' + number.format(norm) + '%';
   chart.querySelector('title').textContent =
     'Cijfer per behaald percentage bij ' +
     number.format(maximum) +
-    ' punten. De norm voor een 6,0 is ' +
+    ' punten. Een 6,0 bij ' +
+    targetLabel +
+    ', oftewel ' +
     number.format(norm) +
     '%. Alle scores staan in de cijfertabel.';
 }

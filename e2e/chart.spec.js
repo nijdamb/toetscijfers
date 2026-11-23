@@ -24,15 +24,31 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
   await expect(chart).toHaveAccessibleName(/100 punten.*80%/);
   const line = chart.locator('polyline');
   const points = await line.getAttribute('points');
-  expect(points.split(' ')).toEqual(
-    expect.arrayContaining(['30,158', '167.5,158', '230,88', '280,32']),
-  );
+  expect(points).toBe('30,183 167.5,183 280,30');
+  await expect(chart.locator('.chart-label')).toHaveText('80 punten · 80%');
+  await expect(chart.locator('circle')).toHaveAttribute('cx', '230');
+  await expect(chart.locator('.chart-ticks')).toContainText('0,5');
   await page.getByRole('button', { name: 'Volgende' }).click();
   await expect(line).toHaveAttribute('points', points);
+  const norm = page.getByLabel('Percentage voor een 6,0');
+  await norm.fill('50');
+  await expect(line).toHaveAttribute('points', '30,166 280,30');
+
+  const panel = page.locator('.chart-panel');
+  const panelHeight = await panel.evaluate((el) => el.offsetHeight);
+  for (const invalid of ['', '100']) {
+    await norm.fill(invalid);
+    await expect(panel).toBeVisible();
+    await expect(page.locator('#grade-chart')).toHaveCSS('visibility', 'hidden');
+    expect(await panel.evaluate((el) => el.offsetHeight)).toBe(panelHeight);
+  }
+  await norm.fill('80');
+  await expect(chart).toBeVisible();
   await maximum.fill('0');
   await expect(chart).toBeHidden();
   await maximum.fill('0.5');
   await expect(chart).toHaveAccessibleName(/0,5 punten/);
+  await expect(chart.locator('.chart-label')).toHaveText('0,4 punten · 80%');
   const { violations } = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa'])
     .analyze();
@@ -41,5 +57,9 @@ test('chart shows the full scale and updates with the table', async ({ page }, t
     await page.getByRole('button', { name: 'Verberg grafiek' }).click();
     await expect(chart).toBeHidden();
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    const closedHeight = await panel.evaluate((el) => el.offsetHeight);
+    await norm.fill('');
+    await expect(toggle).toBeVisible();
+    expect(await panel.evaluate((el) => el.offsetHeight)).toBe(closedHeight);
   }
 });
